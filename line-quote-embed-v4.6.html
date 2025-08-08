@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>晶全豐｜線上詢價（嵌入版 v4.6）</title>
+<style>
+:root{--b:#4A7C2D;--b2:#7FB241;--t:#222;--m:#777;--bd:#ccc;--acc:#00c300}
+*{box-sizing:border-box}body{margin:0;background:#fff;font-family:'Microsoft JhengHei','Noto Sans TC',system-ui,-apple-system,Arial,sans-serif;color:var(--t)}
+.wrap{max-width:900px;margin:0 auto;padding:10px 8px 20px}
+h2{margin:4px 0 6px;text-align:center;color:var(--b);font-size:22px}
+.progress{position:relative;height:8px;background:#eef2ee;border-radius:999px;overflow:hidden}.progress i{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--b),var(--b2));transition:width .2s}
+.steps{display:flex;justify-content:space-between;font-size:12px;color:#666;margin:6px 2px 8px}.steps .on{color:#2c6;font-weight:700}
+.pct{font-size:12px;text-align:right;color:#666;margin:0 2px 10px}
+.sub{margin:0 0 10px;text-align:center;color:#666;font-size:14px}
+.grid{display:flex;flex-wrap:wrap;gap:14px}.col{flex:1 1 360px;position:relative}
+input,select,textarea{width:100%;padding:12px;font-size:15px;border:1px solid var(--bd);border-radius:8px;background:#fff}
+textarea{min-height:96px;resize:vertical}
+label{position:absolute;left:10px;top:10px;padding:0 6px;background:#fff;color:#888;font-size:14px;pointer-events:none;transition:all .18s}
+.col input:focus+label,.col input:not(:placeholder-shown)+label,.col select:focus+label,.col select:not([value=""])+label,.col textarea:focus+label,.col textarea:not(:placeholder-shown)+label{top:-9px;left:8px;font-size:12px;color:var(--b)}
+.help{font-size:12px;color:#888;margin:6px 0 0 2px}.err{display:none;font-size:12px;color:#d22;margin:6px 0 0 2px}
+.tip{margin-top:10px;font-size:13px;color:#444;background:#f6f7f8;border:1px dashed #cfd4d8;padding:10px 12px;border-radius:8px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{appearance:none;border:0;border-radius:10px;padding:12px 16px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .05s;flex:1 1 220px}
+.btn:active{transform:translateY(1px)}.btn-primary{background:linear-gradient(135deg,var(--b),var(--b2));color:#fff}.btn-secondary{background:var(--acc);color:#fff;text-decoration:none;text-align:center;line-height:22px;display:inline-block;border-radius:10px;font-weight:700}
+.msg{display:none;margin-top:10px;color:var(--b);font-weight:700;text-align:center}
+.desktop{display:none;margin-top:12px;border:1px solid #e2e6ea;border-radius:8px;padding:12px;background:#fafbfc}
+.desktop h3{margin:0 0 8px;font-size:16px;color:#222}.desktop .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.desktop .link{padding:10px 12px;background:#fff;border:1px solid #cfd4d8;border-radius:8px;font-weight:700;text-decoration:none;color:#1a1a1a}
+.desktop .box{width:100%;min-height:120px;padding:10px;border:1px dashed #cfd4d8;border-radius:8px;font-size:14px;white-space:pre-wrap;background:#fff}
+@media (max-width:560px){h2{font-size:20px}}
+</style></head><body>
+<div class="wrap" role="form" aria-label="晶全豐 線上詢價（v4.6）">
+  <h2>晶全豐有限公司 線上詢價</h2>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  <div class="steps"><span id="st1" class="on">1 填寫表單</span><span id="st2">2 複製內容</span><span id="st3">3 用 LINE 傳送</span></div>
+  <div class="pct" id="pct">完成 0%</div>
+  <p class="sub">填寫完成後按「複製內容」→ 「用 LINE 傳送到官方帳號」即可。</p>
+
+  <div class="grid">
+    <div class="col">
+      <input id="company" placeholder=" " autocomplete="organization" required><label for="company">公司名稱（例：OOOO有限公司）<span style="color:#d22">*</span></label>
+      <div id="e-company" class="err">請輸入公司名稱</div>
+    </div>
+    <div class="col">
+      <input id="contact" placeholder=" " autocomplete="name" required><label for="contact">聯絡人<span style="color:#d22">*</span></label>
+      <div id="e-contact" class="err">請輸入聯絡人</div>
+    </div>
+
+    <div class="col">
+      <input id="email" type="email" placeholder=" " inputmode="email" autocomplete="email" required><label for="email">Email<span style="color:#d22">*</span></label>
+      <div class="help">請填常用信箱，便於寄送正式報價單</div><div id="e-email" class="err">請輸入有效的 Email</div>
+    </div>
+    <div class="col">
+      <input id="mobile" type="tel" placeholder=" " inputmode="numeric" autocomplete="tel"><label for="mobile">手機（自動加 - ）</label>
+      <div class="help">格式：0912-345-678</div><div id="e-mobile" class="err">手機需為 09 開頭 10 碼</div>
+    </div>
+
+    <div class="col">
+      <input id="landline" type="tel" placeholder=" " autocomplete="tel"><label for="landline">公司電話（自動格式化）</label>
+      <div class="help">例：02-1234-5678 或 037-123-456，可加 #分機</div><div id="e-landline" class="err">市話格式不正確</div>
+    </div>
+    <div class="col">
+      <input id="ext" type="tel" placeholder=" " inputmode="numeric" autocomplete="off"><label for="ext">分機（選填）</label>
+      <div class="help">可輸入 1–5 碼</div>
+    </div>
+
+    <div class="col">
+      <select id="process" required>
+        <option value="">請選擇</option>
+        <option value="電解">電解</option>
+        <optgroup label="電著（泳）"><option value="電著（泳）-平黑">平黑</option><option value="電著（泳）-消光黑">消光黑</option><option value="電著（泳）-其他特殊色">其他特殊色</option></optgroup>
+        <option value="電漿">電漿</option>
+      </select><label for="process">需求工藝<span style="color:#d22">*</span></label>
+      <div id="e-process" class="err">請選擇需求工藝</div>
+    </div>
+
+    <div class="col"><input id="qty" type="number" placeholder=" " inputmode="numeric" min="1" step="1"><label for="qty">預計製造數量</label></div>
+    <div class="col"><input id="material" placeholder=" " autocomplete="off" list="materials"><label for="material">材質（例：SUS304 / 鋁合金）</label>
+      <datalist id="materials"><option value="SUS304"><option value="SUS316"><option value="鋁合金"><option value="黃銅"><option value="碳鋼"></datalist></div>
+    <div class="col"><input id="surface" placeholder=" " autocomplete="off" list="surfaces"><label for="surface">工藝需求（例：光滑 / 去焊疤 / 消光黑）</label>
+      <datalist id="surfaces"><option value="光滑"><option value="去焊疤"><option value="消光黑"><option value="拋光"><option value="去毛邊"></datalist></div>
+
+    <div class="col" style="flex:1 1 100%"><textarea id="note" placeholder=" "></textarea><label for="note">備註</label></div>
+  </div>
+
+  <div class="tip"><b>建議一併傳圖檔</b>：3D（SolidWorks/STEP）或產品照片、尺寸標示、顏色/表面效果參考。<br>在 LINE 傳送圖檔，可加速估價時程與精準度。</div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="copyBtn" type="button">複製報價內容</button>
+    <a class="btn btn-secondary" id="sendLineBtn" href="#" target="_blank" rel="noopener">用 LINE 傳送到官方帳號</a>
+  </div>
+  <div class="msg" id="copiedMsg">已複製，請在 LINE 對話視窗貼上並傳送。</div>
+
+  <div class="desktop" id="desk">
+    <h3>在電腦上發送方式</h3>
+    <ol style="margin:0 0 10px 16px;padding:0"><li>請先安裝並登入 <b>LINE 電腦版</b>（Windows / Mac）。</li><li>點「開啟 LINE 電腦版」。若無反應，請先點「加好友（可顯示 QR）」用手機掃描。</li></ol>
+    <div class="row">
+      <a class="link" id="openApp" href="#">開啟 LINE 電腦版</a>
+      <a class="link" id="addFriend" href="https://line.me/R/ti/p/@482dwomb" target="_blank" rel="noopener">加好友（可顯示 QR）</a>
+      <a class="link" href="https://line.me/download" target="_blank" rel="noopener">下載 LINE 電腦版</a>
+    </div>
+    <div style="margin-top:10px">若仍無法自動貼上，請手動複製以下內容：</div>
+    <textarea id="deskMsg" class="box" readonly></textarea>
+  </div>
+</div>
+
+<script>
+(function(){
+  const OA='@482dwomb',isM=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const $=id=>document.getElementById(id),
+  E={company:$('company'),contact:$('contact'),email:$('email'),mobile:$('mobile'),landline:$('landline'),ext:$('ext'),
+     process:$('process'),qty:$('qty'),material:$('material'),surface:$('surface'),note:$('note'),
+     copyBtn:$('copyBtn'),sendBtn:$('sendLineBtn'),copied:$('copiedMsg'),desk:$('desk'),openApp:$('openApp'),deskMsg:$('deskMsg'),
+     bar:$('bar'),pct:$('pct'),st1:$('st1'),st2:$('st2'),st3:$('st3'),
+     ec:$('e-company'),econt:$('e-contact'),ee:$('e-email'),em:$('e-mobile'),el:$('e-landline'),ep:$('e-process')};
+
+  // ===== Mobile format (no trailing dashes) =====
+  function fmtM(v){const d=v.replace(/\D/g,'').slice(0,10);if(d.length<=4)return d;if(d.length<=7)return d.slice(0,4)+'-'+d.slice(4);return d.slice(0,4)+'-'+d.slice(4,7)+'-'+d.slice(7)}
+  E.mobile.addEventListener('input',()=>{const p=E.mobile.selectionStart,b=E.mobile.value.length;E.mobile.value=fmtM(E.mobile.value);const a=E.mobile.value.length;try{E.mobile.setSelectionRange(Math.max(0,p+(a-b)),Math.max(0,p+(a-b)));}catch(e){};prog();h()},{passive:true});
+
+  // ===== Strict TW landline format =====
+  const AREA=['0836','082','089','049','037','02','03','04','05','06','07','08'];
+  function areaOf(d){for(const a of AREA){if(d.startsWith(a))return a}return null}
+  function fmtL(v){
+    const seg=v.split('#'),raw=seg[0].replace(/\D/g,'').replace(/^886/,'0').slice(0,11),ext=(seg[1]||'').replace(/\D/g,'').slice(0,5);
+    if(!raw||raw[0]!=='0') return raw+(ext?('#'+ext):'');
+    const ar=areaOf(raw); if(!ar) return raw+(ext?('#'+ext):'');
+    const r=raw.slice(ar.length); let out=ar;
+    if(ar==='02'){ if(r.length<=4) out+='-'+r; else out+='-'+r.slice(0,4)+'-'+r.slice(4,8); }
+    else if(['03','04','05','06','07','08'].includes(ar)){ if(r.length<=3) out+='-'+r; else out+='-'+r.slice(0,3)+'-'+r.slice(3,7); }
+    else if(['037','049','089','082'].includes(ar)){ if(r.length<=3) out+='-'+r; else if(r.length<=6) out+='-'+r.slice(0,3)+'-'+r.slice(3,6); else out+='-'+r.slice(0,3)+'-'+r.slice(3,7); }
+    else if(ar==='0836'){ if(r.length<=2) out+='-'+r; else out+='-'+r.slice(0,2)+'-'+r.slice(2,5); }
+    else out+='-'+r;
+    return out+(ext?('#'+ext):'');
+  }
+  E.landline.addEventListener('input',()=>{const p=E.landline.selectionStart,b=E.landline.value.length;E.landline.value=fmtL(E.landline.value);const a=E.landline.value.length;try{E.landline.setSelectionRange(Math.max(0,p+(a-b)),Math.max(0,p+(a-b)));}catch(e){};prog();h()},{passive:true});
+  E.ext.addEventListener('input',()=>{E.ext.value=E.ext.value.replace(/\D/g,'').slice(0,5)},{passive:true});
+
+  // ===== Validation =====
+  const emRx=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function okEmail(v){return emRx.test(v)}
+  function okM(v){const d=v.replace(/\D/g,'');return d.length===10 && d.startsWith('09')}
+  function okL(v){const parts=v.split('#'),base=parts[0].replace(/\D/g,'').replace(/^886/,'0');if(!base||base[0]!=='0')return false;const ar=areaOf(base);if(!ar)return false;const r=base.slice(ar.length);if(ar==='02')return r.length===8;if(['03','04','05','06','07','08'].includes(ar))return r.length===7;if(['037','049','089','082'].includes(ar))return (r.length===6||r.length===7);if(ar==='0836')return r.length===5;return false}
+  function show(el,ok){el.style.display=ok?'none':'block'}
+  function valid(show){let ok=true;
+    if(!E.company.value.trim()){ok=false; if(show)show(E.ec,false)} else show(E.ec,true);
+    if(!E.contact.value.trim()){ok=false; if(show)show(E.econt,false)} else show(E.econt,true);
+    if(!okEmail(E.email.value.trim())){ok=false; if(show)show(E.ee,false)} else show(E.ee,true);
+    if(!E.process.value){ok=false; if(show)show(E.ep,false)} else show(E.ep,true);
+    const hm=E.mobile.value.trim().length>0, hl=E.landline.value.trim().length>0, mOk=hm?okM(E.mobile.value):false, lOk=hl?okL(E.landline.value):false;
+    if(!hm && !hl){ok=false; if(show){show(E.em,false);show(E.el,false)}} else { if(hm && !mOk){ok=false; if(show)show(E.em,false)} else show(E.em,true); if(hl && !lOk){ok=false; if(show)show(E.el,false)} else show(E.el,true); }
+    return ok;
+  }
+
+  // ===== Progress =====
+  function prog(){const filled=[!!E.company.value.trim(),!!E.contact.value.trim(),okEmail(E.email.value.trim()),!!E.process.value,(okM(E.mobile.value)||okL(E.landline.value))];const d=filled.filter(Boolean).length,p=Math.round(d/5*100);E.bar.style.width=p+'%';E.pct.textContent='完成 '+p+'%'; if(p<100){E.st1.classList.add('on');E.st2.classList.remove('on');E.st3.classList.remove('on')}}
+  ['input','change','blur'].forEach(ev=>{['company','contact','email','process','mobile','landline'].forEach(id=>{$(id).addEventListener(ev,()=>{valid(false);prog();h()},{passive:true})})});prog();
+
+  // ===== Build message =====
+  function msg(){const a=[];a.push('晶全豐詢價需求');a.push('公司名稱：'+E.company.value.trim());a.push('聯絡人：'+E.contact.value.trim());a.push('Email：'+E.email.value.trim());if(E.mobile.value.trim())a.push('手機：'+E.mobile.value.trim());let ll=E.landline.value.trim(),ex=E.ext.value.trim();if(ll||ex){if(ll&&ex&&!/#\d+$/.test(ll))ll=ll+'#'+ex;a.push('公司電話：'+(ll||('分機 '+ex)))}a.push('需求工藝：'+(E.process.value||''));a.push('預計製造數量：'+(E.qty.value.trim()||''));a.push('材質：'+(E.material.value.trim()||''));a.push('工藝需求：'+(E.surface.value.trim()||''));a.push('備註：'+(E.note.value.trim()||''));a.push('（請於 LINE 一併傳送 3D 圖檔或產品照片，加速報價）');return a.join('\n')}
+  function copyN(t){return navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()}
+  function copyF(t){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){ok=false}document.body.removeChild(ta);return ok?Promise.resolve():Promise.reject()}
+  function copy(t){return copyN(t).catch(()=>copyF(t))}
+
+  E.copyBtn.addEventListener('click',()=>{if(!valid(true))return;copy(msg()).then(()=>{E.copied.style.display='block';E.copyBtn.textContent='已複製';E.st1.classList.remove('on');E.st2.classList.add('on');E.st3.classList.remove('on');setTimeout(()=>{E.copyBtn.textContent='複製報價內容'},1200);h()}).catch(()=>alert('複製失敗，請手動選取內容複製'))});
+  E.sendBtn.addEventListener('click',e=>{if(!valid(true)){e.preventDefault();return}const t=msg();if(isM){E.sendBtn.setAttribute('href','https://line.me/R/oaMessage/'+encodeURIComponent(OA)+'/?'+encodeURIComponent(t));E.st1.classList.remove('on');E.st2.classList.add('on');E.st3.classList.add('on')}else{e.preventDefault();const u='line://oaMessage/'+encodeURIComponent(OA)+'/?'+encodeURIComponent(t);E.desk.style.display='block';E.deskMsg.value=t;E.openApp.setAttribute('href',u);location.href=u;E.st1.classList.remove('on');E.st2.classList.add('on');E.st3.classList.add('on');h()}});
+
+  // ===== Auto-height to parent =====
+  function h(){try{const H=document.documentElement.scrollHeight||document.body.scrollHeight;window.parent.postMessage({type:'setHeight',height:H},'*')}catch(e){}}
+  ['load','resize'].forEach(ev=>addEventListener(ev,h)); new MutationObserver(h).observe(document.body,{childList:true,subtree:true,attributes:true});
+
+  // ===== Defer non-critical (speed) =====
+  (window.requestIdleCallback||function(cb){setTimeout(cb,200)})(function(){ /* reserved for future (e.g., analytics) */ });
+})();</script>
+</body></html>
