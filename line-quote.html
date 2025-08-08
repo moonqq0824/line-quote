@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>晶全豐有限公司｜LINE 複製報價表單</title>
+<style>
+  :root{
+    --brand-green:#4A7C2D;
+    --brand-green-2:#7FB241;
+    --text:#333;
+    --muted:#777;
+    --border:#ccc;
+    --bg:#fff;
+  }
+  body{
+    margin:0;
+    background:#f6f7f8;
+    font-family:"Microsoft JhengHei", "Noto Sans TC", system-ui, -apple-system, Arial, sans-serif;
+    color:var(--text);
+  }
+  .wrap{
+    max-width:900px;
+    margin:24px auto;
+    padding:12px;
+  }
+  .card{
+    background:var(--bg);
+    border-radius:12px;
+    padding:28px;
+    box-shadow:0 6px 24px rgba(0,0,0,0.06);
+  }
+  h1{
+    margin:0 0 6px 0;
+    font-size:24px;
+    color:var(--brand-green);
+    text-align:center;
+  }
+  .sub{
+    text-align:center;
+    color:#666;
+    font-size:14px;
+    margin:0 0 22px 0;
+  }
+  .grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .col{
+    flex:1 1 360px;
+    position:relative;
+  }
+  input,select,textarea{
+    width:100%;
+    padding:14px 12px;
+    font-size:15px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    box-sizing:border-box;
+  }
+  textarea{min-height:110px; resize:vertical;}
+  /* floating labels */
+  .col label{
+    position:absolute;
+    left:10px;
+    top:12px;
+    padding:0 6px;
+    background:#fff;
+    color:var(--muted);
+    font-size:14px;
+    pointer-events:none;
+    transition:all .18s ease;
+  }
+  .col input:focus + label,
+  .col input:not(:placeholder-shown) + label,
+  .col select:focus + label,
+  .col select:has(option:checked:not([value=""])) + label,
+  .col textarea:focus + label,
+  .col textarea:not(:placeholder-shown) + label{
+    top:-9px;
+    left:8px;
+    font-size:12px;
+    color:var(--brand-green);
+  }
+  .help{
+    font-size:12px;
+    color:#888;
+    margin:6px 0 0 2px;
+  }
+  .actions{
+    margin-top:18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .btn{
+    appearance:none;
+    border:0;
+    border-radius:10px;
+    padding:14px 18px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .05s ease;
+  }
+  .btn:active{ transform:translateY(1px); }
+  .btn-copy{
+    background:linear-gradient(135deg, var(--brand-green), var(--brand-green-2));
+    color:#fff;
+    flex:1 1 220px;
+  }
+  .btn-line{
+    background:#00c300;
+    color:#fff;
+    text-decoration:none;
+    text-align:center;
+    flex:1 1 220px;
+    display:inline-block;
+    line-height:22px;
+    padding:14px 18px;
+    border-radius:10px;
+    font-weight:700;
+  }
+  .msg{
+    display:none;
+    margin-top:14px;
+    color:var(--brand-green);
+    font-weight:700;
+    text-align:center;
+  }
+  .req{ color:#d22; margin-left:4px;}
+  @media (max-width:560px){
+    .card{ padding:22px; }
+    h1{ font-size:20px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="form" aria-label="晶全豐 LINE 複製報價表單">
+      <h1>晶全豐有限公司 線上詢價（LINE 複製）</h1>
+      <p class="sub">請先填寫資料，按下「複製報價內容」後進入 LINE 貼上並傳送</p>
+
+      <div class="grid">
+        <div class="col">
+          <input id="company" placeholder=" " autocomplete="organization" required>
+          <label for="company">公司名稱（例：OOOO有限公司）<span class="req">*</span></label>
+        </div>
+        <div class="col">
+          <input id="contact" placeholder=" " autocomplete="name" required>
+          <label for="contact">聯絡人<span class="req">*</span></label>
+        </div>
+
+        <div class="col">
+          <input id="email" type="email" placeholder=" " inputmode="email" autocomplete="email" required>
+          <label for="email">Email<span class="req">*</span></label>
+          <div class="help">請填常用信箱，便於寄送正式報價單</div>
+        </div>
+        <div class="col">
+          <input id="phone" type="tel" placeholder=" " inputmode="numeric" pattern="[0-9]{10}" required>
+          <label for="phone">聯絡電話（10 碼，如 0912345678）<span class="req">*</span></label>
+        </div>
+
+        <div class="col">
+          <select id="process" required>
+            <option value="">請選擇</option>
+            <option>電解</option>
+            <option>電著（泳）</option>
+            <option>電漿</option>
+          </select>
+          <label for="process">需求工藝<span class="req">*</span></label>
+        </div>
+        <div class="col">
+          <input id="qty" type="number" placeholder=" " inputmode="numeric" min="1" step="1">
+          <label for="qty">預計製造數量</label>
+        </div>
+
+        <div class="col">
+          <input id="material" placeholder=" " autocomplete="off">
+          <label for="material">材質（例：SUS304 / 鋁合金）</label>
+        </div>
+        <div class="col">
+          <input id="surface" placeholder=" " autocomplete="off">
+          <label for="surface">工藝需求（例：光滑 / 去焊疤 / 消光黑）</label>
+        </div>
+
+        <div class="col" style="flex:1 1 100%;">
+          <textarea id="note" placeholder=" "></textarea>
+          <label for="note">備註</label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-copy" id="copyBtn" type="button">複製報價內容</button>
+        <a class="btn-line" id="openLine" href="https://lin.ee/uYm6MpA" target="_blank" rel="noopener">開啟 LINE 並貼上</a>
+      </div>
+      <div class="msg" id="copiedMsg">已複製，請在 LINE 對話視窗貼上並傳送。</div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const company = document.getElementById('company');
+  const contact = document.getElementById('contact');
+  const email = document.getElementById('email');
+  const phone = document.getElementById('phone');
+  const process = document.getElementById('process');
+  const qty = document.getElementById('qty');
+  const material = document.getElementById('material');
+  const surface = document.getElementById('surface');
+  const note = document.getElementById('note');
+  const copyBtn = document.getElementById('copyBtn');
+  const copiedMsg = document.getElementById('copiedMsg');
+
+  function validate(){
+    if(!company.value.trim() || !contact.value.trim() || !email.value.trim() || !phone.value.trim() || !process.value){
+      alert('請填寫所有標示 * 的必填欄位。');
+      return false;
+    }
+    // email basic
+    const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if(!emailPattern.test(email.value.trim())){
+      alert('請輸入有效的 Email。');
+      return false;
+    }
+    // phone 10 digits
+    if(!/^[0-9]{10}$/.test(phone.value.trim())){
+      alert('請輸入 10 位數手機號碼（例如 0912345678）。');
+      return false;
+    }
+    return true;
+  }
+
+  function buildText(){
+    const lines = [
+      '晶全豐詢價需求',
+      '公司名稱：' + company.value.trim(),
+      '聯絡人：' + contact.value.trim(),
+      'Email：' + email.value.trim(),
+      '聯絡電話：' + phone.value.trim(),
+      '需求工藝：' + (process.value || ''),
+      '預計製造數量：' + (qty.value.trim() || ''),
+      '材質：' + (material.value.trim() || ''),
+      '工藝需求：' + (surface.value.trim() || ''),
+      '備註：' + (note.value.trim() || '')
+    ];
+    return lines.join('\n');
+  }
+
+  function copyText(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }catch(e){
+      document.body.removeChild(ta);
+      return Promise.reject(e);
+    }
+  }
+
+  copyBtn.addEventListener('click', function(){
+    if(!validate()) return;
+    copyBtn.disabled = true;
+    const text = buildText();
+    copyText(text).then(()=>{
+      copiedMsg.style.display='block';
+      copyBtn.textContent='已複製';
+      setTimeout(()=>{ copyBtn.textContent='複製報價內容'; copyBtn.disabled=false; }, 1200);
+      // 也可自動打開 LINE：document.getElementById('openLine').click();
+    }).catch(()=>{
+      alert('複製失敗，請手動選取內容後複製。');
+      copyBtn.disabled=false;
+    });
+  });
+})();
+</script>
+</body>
+</html>
