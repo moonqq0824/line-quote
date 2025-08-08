@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>晶全豐｜線上詢價（嵌入版 v4.5）</title>
+<style>
+:root{--brand:#4A7C2D;--brand2:#7FB241;--text:#222;--muted:#777;--border:#ccc;--accent:#00c300;}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font-family:'Microsoft JhengHei','Noto Sans TC',system-ui,-apple-system,Arial,sans-serif;color:var(--text)}
+.wrap{max-width:900px;margin:0 auto;padding:10px 8px 20px}
+h2{margin:4px 0 6px;text-align:center;color:var(--brand);font-size:22px}
+.progress{position:relative;height:8px;background:#eef2ee;border-radius:999px;overflow:hidden}
+.progress i{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .25s ease}
+.steps{display:flex;justify-content:space-between;font-size:12px;color:#666;margin:6px 2px 10px}
+.steps .on{color:#2c6;font-weight:700}
+.percent{font-size:12px;text-align:right;color:#666;margin:-6px 2px 12px}
+.sub{margin:0 0 12px;text-align:center;color:#666;font-size:14px}
+.grid{display:flex;flex-wrap:wrap;gap:16px}
+.col{flex:1 1 360px;position:relative}
+input,select,textarea{width:100%;padding:12px;font-size:15px;border:1px solid var(--border);border-radius:8px;background:#fff}
+textarea{min-height:100px;resize:vertical}
+label{position:absolute;left:10px;top:10px;padding:0 6px;background:#fff;color:#888;font-size:14px;pointer-events:none;transition:all .18s}
+.col input:focus+label,.col input:not(:placeholder-shown)+label,.col select:focus+label,.col select:not([value=""])+label,.col textarea:focus+label,.col textarea:not(:placeholder-shown)+label{top:-9px;left:8px;font-size:12px;color:var(--brand)}
+.help{font-size:12px;color:#888;margin:6px 0 0 2px}
+.err{display:none;font-size:12px;color:#d22;margin:6px 0 0 2px}
+.tip{margin-top:10px;font-size:13px;color:#444;background:#f6f7f8;border:1px dashed #cfd4d8;padding:10px 12px;border-radius:8px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{appearance:none;border:0;border-radius:10px;padding:12px 16px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .05s;flex:1 1 220px}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff}
+.btn-secondary{background:var(--accent);color:#fff;text-decoration:none;text-align:center;line-height:22px;display:inline-block;border-radius:10px;font-weight:700}
+.msg{display:none;margin-top:10px;color:var(--brand);font-weight:700;text-align:center}
+.desktop{display:none;margin-top:12px;border:1px solid #e2e6ea;border-radius:8px;padding:12px;background:#fafbfc}
+.desktop h3{margin:0 0 8px;font-size:16px;color:#222}
+.desktop .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.desktop .link{padding:10px 12px;background:#fff;border:1px solid #cfd4d8;border-radius:8px;font-weight:700;text-decoration:none;color:#1a1a1a}
+.desktop .box{width:100%;min-height:120px;padding:10px;border:1px dashed #cfd4d8;border-radius:8px;font-size:14px;white-space:pre-wrap;background:#fff}
+.hint{font-size:12px;color:#666;margin-top:6px}
+@media (max-width:560px){h2{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap" role="form" aria-label="晶全豐 線上詢價（v4.5）">
+  <h2>晶全豐有限公司 線上詢價</h2>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  <div class="steps"><span id="st1" class="on">1 填寫表單</span><span id="st2">2 複製內容</span><span id="st3">3 用 LINE 傳送</span></div>
+  <div class="percent" id="pct">完成 0%</div>
+  <p class="sub">填寫完成後按「複製內容」→ 「用 LINE 傳送到官方帳號」即可。</p>
+
+  <div class="grid">
+    <div class="col">
+      <input id="company" placeholder=" " autocomplete="organization" required>
+      <label for="company">公司名稱（例：OOOO有限公司）<span style="color:#d22">*</span></label>
+      <div id="e-company" class="err">請輸入公司名稱</div>
+    </div>
+    <div class="col">
+      <input id="contact" placeholder=" " autocomplete="name" required>
+      <label for="contact">聯絡人<span style="color:#d22">*</span></label>
+      <div id="e-contact" class="err">請輸入聯絡人</div>
+    </div>
+
+    <div class="col">
+      <input id="email" type="email" placeholder=" " inputmode="email" autocomplete="email" required>
+      <label for="email">Email<span style="color:#d22">*</span></label>
+      <div class="help">請填常用信箱，便於寄送正式報價單</div>
+      <div id="e-email" class="err">請輸入有效的 Email</div>
+    </div>
+    <div class="col">
+      <input id="mobile" type="tel" placeholder=" " inputmode="numeric" autocomplete="tel">
+      <label for="mobile">手機（自動加 - ）</label>
+      <div class="help">格式：0912-345-678</div>
+      <div id="e-mobile" class="err">手機需為 09 開頭 10 碼</div>
+    </div>
+
+    <div class="col">
+      <input id="landline" type="tel" placeholder=" " autocomplete="tel">
+      <label for="landline">公司電話（自動格式化）</label>
+      <div class="help">例：02-1234-5678 或 037-123-456，可加 #分機</div>
+      <div id="e-landline" class="err">市話格式不正確</div>
+    </div>
+    <div class="col">
+      <input id="ext" type="tel" placeholder=" " inputmode="numeric" autocomplete="off">
+      <label for="ext">分機（選填）</label>
+      <div class="help">可輸入 1–5 碼</div>
+    </div>
+
+    <div class="col">
+      <select id="process" required>
+        <option value="">請選擇</option>
+        <option value="電解">電解</option>
+        <optgroup label="電著（泳）">
+          <option value="電著（泳）-平黑">平黑</option>
+          <option value="電著（泳）-消光黑">消光黑</option>
+          <option value="電著（泳）-其他特殊色">其他特殊色</option>
+        </optgroup>
+        <option value="電漿">電漿</option>
+      </select>
+      <label for="process">需求工藝<span style="color:#d22">*</span></label>
+      <div id="e-process" class="err">請選擇需求工藝</div>
+      <div id="proc-hint" class="hint"></div>
+    </div>
+
+    <div class="col">
+      <input id="qty" type="number" placeholder=" " inputmode="numeric" min="1" step="1">
+      <label for="qty">預計製造數量</label>
+    </div>
+    <div class="col">
+      <input id="material" placeholder=" " autocomplete="off" list="materials">
+      <label for="material">材質（例：SUS304 / 鋁合金）</label>
+      <datalist id="materials"><option value="SUS304"><option value="SUS316"><option value="鋁合金"><option value="黃銅"><option value="碳鋼"></datalist>
+    </div>
+    <div class="col">
+      <input id="surface" placeholder=" " autocomplete="off" list="surfaces">
+      <label for="surface">工藝需求（例：光滑 / 去焊疤 / 消光黑）</label>
+      <datalist id="surfaces"><option value="光滑"><option value="去焊疤"><option value="消光黑"><option value="拋光"><option value="去毛邊"></datalist>
+    </div>
+
+    <div class="col" style="flex:1 1 100%;">
+      <textarea id="note" placeholder=" "></textarea>
+      <label for="note">備註</label>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>建議一併傳圖檔</b>：3D（SolidWorks/STEP）或產品照片、尺寸標示、顏色/表面效果參考。<br>
+    在 LINE 傳送圖檔，可加速估價時程與精準度。
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="copyBtn" type="button">複製報價內容</button>
+    <a class="btn btn-secondary" id="sendLineBtn" href="#" target="_blank" rel="noopener">用 LINE 傳送到官方帳號</a>
+  </div>
+  <div class="msg" id="copiedMsg">已複製，請在 LINE 對話視窗貼上並傳送。</div>
+
+  <div class="desktop" id="desk">
+    <h3>在電腦上發送方式</h3>
+    <ol style="margin:0 0 10px 16px;padding:0">
+      <li>請先安裝並登入 <b>LINE 電腦版</b>（Windows / Mac）。</li>
+      <li>點「開啟 LINE 電腦版」。若無反應，請先點「加好友（可顯示 QR）」用手機掃描。</li>
+    </ol>
+    <div class="row">
+      <a class="link" id="openApp" href="#">開啟 LINE 電腦版</a>
+      <a class="link" id="addFriend" href="https://line.me/R/ti/p/@482dwomb" target="_blank" rel="noopener">加好友（可顯示 QR）</a>
+      <a class="link" href="https://line.me/download" target="_blank" rel="noopener">下載 LINE 電腦版</a>
+    </div>
+    <div style="margin-top:10px;">若仍無法自動貼上，請手動複製以下內容：</div>
+    <textarea id="deskMsg" class="box" readonly></textarea>
+  </div>
+</div>
+
+<script>
+(function(){
+  const OA='@482dwomb';
+  const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  const $=id=>document.getElementById(id);
+  const els={
+    company:$('company'),contact:$('contact'),email:$('email'),
+    mobile:$('mobile'),landline:$('landline'),ext:$('ext'),
+    process:$('process'),qty:$('qty'),material:$('material'),
+    surface:$('surface'),note:$('note'),
+    copyBtn:$('copyBtn'),sendLineBtn:$('sendLineBtn'),copiedMsg:$('copiedMsg'),
+    desk:$('desk'),openApp:$('openApp'),deskMsg:$('deskMsg'),
+    bar:$('bar'),pct:$('pct'),st1:$('st1'),st2:$('st2'),st3:$('st3'),
+    e_company:$('e-company'),e_contact:$('e-contact'),e_email:$('e-email'),
+    e_mobile:$('e-mobile'),e_landline:$('e-landline'),e_process:$('e-process'),
+    procHint:$('proc-hint')
+  };
+
+  // ===== Mobile format (no trailing dashes) =====
+  function fmtMobile(raw){
+    const d=raw.replace(/\\D/g,'').slice(0,10);
+    if(!d) return '';
+    if(d.length<=4) return d;
+    if(d.length<=7) return d.slice(0,4)+'-'+d.slice(4);
+    return d.slice(0,4)+'-'+d.slice(4,7)+'-'+d.slice(7);
+  }
+  els.mobile.addEventListener('input', ()=>{
+    const pos=els.mobile.selectionStart, before=els.mobile.value.length;
+    els.mobile.value=fmtMobile(els.mobile.value);
+    const after=els.mobile.value.length, off=after-before;
+    try{els.mobile.setSelectionRange(Math.max(0,pos+off),Math.max(0,pos+off));}catch(e){}
+    progress(); sendH();
+  });
+
+  // ===== Strict TW landline format =====
+  // ordered area codes (longer first to match 0836 before 083)
+  const AREA=['0836','082','089','049','037','02','03','04','05','06','07','08'];
+  function detectArea(d){
+    for(const a of AREA){ if(d.startsWith(a)) return a; }
+    return null;
+  }
+  function fmtLandline(raw){
+    // Allow '#ext' inline; we'll split but keep showing "#ext"
+    const parts=raw.split('#'); const base=parts[0].replace(/\\D/g,'').replace(/^886/,'0').slice(0,11);
+    const extPart=(parts[1]||'').replace(/\\D/g,'').slice(0,5);
+    if(!base || base[0]!=='0') return (extPart?base+'#'+extPart:base);
+    const area=detectArea(base);
+    if(!area) return (extPart?base+'#'+extPart:base);
+    const rest=base.slice(area.length);
+    let out=area;
+    // rules by area
+    if(area==='02'){
+      // 02 + 8 digits => 4-4; shorter時盡量 4|剩餘
+      if(rest.length<=4) out+='-'+rest;
+      else out+='-'+rest.slice(0,4)+'-'+rest.slice(4,8);
+    } else if(['03','04','05','06','07','08'].includes(area)){
+      // 3|4 for full 7; else 3|剩餘
+      if(rest.length<=3) out+='-'+rest;
+      else out+='-'+rest.slice(0,3)+'-'+rest.slice(3,7);
+    } else if(['037','049','089','082'].includes(area)){
+      // 常見 3|3 或 3|4 依長度
+      if(rest.length<=3) out+='-'+rest;
+      else if(rest.length<=6) out+='-'+rest.slice(0,3)+'-'+rest.slice(3,6);
+      else out+='-'+rest.slice(0,3)+'-'+rest.slice(3,7);
+    } else if(area==='0836'){
+      // 0836 + 5（馬祖常見 5 位）→ 2|3；其他長度盡量切 2|剩餘
+      if(rest.length<=2) out+='-'+rest;
+      else out+='-'+rest.slice(0,2)+'-'+rest.slice(2,5);
+    } else {
+      out+='-'+rest;
+    }
+    return out + (extPart?('#'+extPart):'');
+  }
+  els.landline.addEventListener('input', ()=>{
+    const pos=els.landline.selectionStart, before=els.landline.value.length;
+    els.landline.value=fmtLandline(els.landline.value);
+    const after=els.landline.value.length, off=after-before;
+    try{els.landline.setSelectionRange(Math.max(0,pos+off),Math.max(0,pos+off));}catch(e){}
+    progress(); sendH();
+  });
+  els.ext.addEventListener('input', ()=>{
+    els.ext.value=els.ext.value.replace(/\\D/g,'').slice(0,5);
+  });
+
+  // ===== Dynamic process hint =====
+  const HINTS={
+    '電解':'⚙️ 僅適用 3 系列不鏽鋼（SUS304 / SUS316），其他材質不適用。',
+    '電著（泳）-平黑':'🎨 常見應用：耐蝕外觀件；若需色票，請提供色樣/色碼。',
+    '電著（泳）-消光黑':'🎨 表面低反光，適合外觀件；請一併提供表面粗糙度需求。',
+    '電著（泳）-其他特殊色':'🎨 請提供色碼/色樣照片，便於評估可行性。',
+    '電漿':'✨ 顏色可能因材質/表面處理略有差異，建議提供樣品或參考圖。'
+  };
+  function updateHint(){
+    const v=els.process.value; els.procHint.textContent=HINTS[v]||'';
+    progress(); sendH();
+  }
+  els.process.addEventListener('change', updateHint);
+
+  // ===== Validation =====
+  function isEmail(v){ return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(v); }
+  function isMobileOk(v){ const d=v.replace(/\\D/g,''); return d.length===10 && d.startsWith('09'); }
+  function isLandlineOk(v){
+    const parts=v.split('#'); const base=parts[0].replace(/\\D/g,'').replace(/^886/,'0');
+    if(!base || base[0]!=='0') return false;
+    const area=detectArea(base); if(!area) return false;
+    const rest=base.slice(area.length);
+    // basic length checks
+    if(area==='02') return rest.length===8; // 02 + 8
+    if(['03','04','05','06','07','08'].includes(area)) return rest.length===7;
+    if(['037','049','089','082'].includes(area)) return (rest.length===6 || rest.length===7);
+    if(area==='0836') return (rest.length===5);
+    return false;
+  }
+  function show(el,ok){ el.style.display=ok?'none':'block'; }
+  function validate(show=true){
+    let ok=true;
+    const a=els.company.value.trim(), b=els.contact.value.trim(), c=els.email.value.trim();
+    const p=els.process.value;
+    const hasM=els.mobile.value.trim().length>0, hasL=els.landline.value.trim().length>0;
+    const moOk = hasM ? isMobileOk(els.mobile.value) : false;
+    const llOk = hasL ? isLandlineOk(els.landline.value) : false;
+
+    if(!a){ ok=false; if(show) show(els.e_company,false); } else show(els.e_company,true);
+    if(!b){ ok=false; if(show) show(els.e_contact,false); } else show(els.e_contact,true);
+    if(!isEmail(c)){ ok=false; if(show) show(els.e_email,false); } else show(els.e_email,true);
+    if(!p){ ok=false; if(show) show(els.e_process,false); } else show(els.e_process,true);
+
+    // 至少一種電話
+    if(!hasM && !hasL){ ok=false; if(show){ show(els.e_mobile,false); show(els.e_landline,false); } }
+    else {
+      if(hasM && !moOk){ ok=false; if(show) show(els.e_mobile,false); } else show(els.e_mobile,true);
+      if(hasL && !llOk){ ok=false; if(show) show(els.e_landline,false); } else show(els.e_landline,true);
+    }
+    return ok;
+  }
+
+  // ===== Progress =====
+  function progress(){
+    const filled=[
+      !!els.company.value.trim(), !!els.contact.value.trim(), isEmail(els.email.value.trim()), !!els.process.value,
+      (isMobileOk(els.mobile.value) || isLandlineOk(els.landline.value))
+    ];
+    const done=filled.filter(Boolean).length, pct=Math.round(done/5*100);
+    els.bar.style.width=pct+'%'; els.pct.textContent='完成 '+pct+'%';
+    if(pct<100){ els.st1.classList.add('on'); els.st2.classList.remove('on'); els.st3.classList.remove('on'); }
+  }
+  ['input','change','blur'].forEach(ev=>{
+    ['company','contact','email','process','mobile','landline'].forEach(id=>{
+      $(id).addEventListener(ev, ()=>{ validate(false); progress(); sendH(); });
+    });
+  });
+  progress();
+
+  // ===== Build message =====
+  function build(){
+    const parts=[
+      '晶全豐詢價需求',
+      '公司名稱：'+els.company.value.trim(),
+      '聯絡人：'+els.contact.value.trim(),
+      'Email：'+els.email.value.trim()
+    ];
+    if(els.mobile.value.trim()) parts.push('手機：'+els.mobile.value.trim());
+    let ll=els.landline.value.trim(), ex=els.ext.value.trim();
+    if(ll||ex){ if(ll && ex && !/#\\d+$/.test(ll)) ll = ll + '#' + ex; parts.push('公司電話：'+(ll || ('分機 '+ex))); }
+    parts.push('需求工藝：'+(els.process.value||''));
+    parts.push('預計製造數量：'+(els.qty.value.trim()||''));
+    parts.push('材質：'+(els.material.value.trim()||''));
+    parts.push('工藝需求：'+(els.surface.value.trim()||''));
+    parts.push('備註：'+(els.note.value.trim()||''));
+    parts.push('（請於 LINE 一併傳送 3D 圖檔或產品照片，加速報價）');
+    return parts.join('\\n');
+  }
+  function copyNative(t){ return navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(t) : Promise.reject(); }
+  function copyFallback(t){ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); let ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; } document.body.removeChild(ta); return ok?Promise.resolve():Promise.reject(); }
+  function copyText(t){ return copyNative(t).catch(()=>copyFallback(t)); }
+
+  els.copyBtn.addEventListener('click', ()=>{
+    if(!validate(true)) return;
+    copyText(build()).then(()=>{
+      els.copiedMsg.style.display='block';
+      els.copyBtn.textContent='已複製';
+      els.st1.classList.remove('on'); els.st2.classList.add('on'); els.st3.classList.remove('on');
+      setTimeout(()=>{ els.copyBtn.textContent='複製報價內容'; }, 1200);
+      sendH();
+    }).catch(()=>alert('複製失敗，請手動選取內容複製'));
+  });
+
+  els.sendLineBtn.addEventListener('click', (e)=>{
+    if(!validate(true)){ e.preventDefault(); return; }
+    const text=build();
+    if(isMobile){
+      const url='https://line.me/R/oaMessage/'+encodeURIComponent(OA)+'/?'+encodeURIComponent(text);
+      els.sendLineBtn.setAttribute('href', url);
+      els.st1.classList.remove('on'); els.st2.classList.add('on'); els.st3.classList.add('on');
+    }else{
+      e.preventDefault();
+      const appUrl='line://oaMessage/'+encodeURIComponent(OA)+'/?'+encodeURIComponent(text);
+      els.desk.style.display='block'; els.deskMsg.value=text; els.openApp.setAttribute('href', appUrl);
+      window.location.href=appUrl;
+      els.st1.classList.remove('on'); els.st2.classList.add('on'); els.st3.classList.add('on');
+      sendH();
+    }
+  });
+
+  // ===== Save draft (debounced) =====
+  const KEY='cjf_quote_draft_v45';
+  function save(){ const data={
+    company:els.company.value,contact:els.contact.value,email:els.email.value,
+    mobile:els.mobile.value,landline:els.landline.value,ext:els.ext.value,
+    process:els.process.value,qty:els.qty.value,material:els.material.value,
+    surface:els.surface.value,note:els.note.value
+  }; try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} }
+  let t=null;
+  function debouncedSave(){ clearTimeout(t); t=setTimeout(save, 250); }
+  ['input','change'].forEach(ev=>document.addEventListener(ev, debouncedSave, true));
+  // load when idle
+  (window.requestIdleCallback||function(cb){setTimeout(cb,0)})(()=>{
+    try{ const s=localStorage.getItem(KEY); if(!s) return;
+      const d=JSON.parse(s)||{}; Object.keys(d).forEach(k=>{ if(els[k] && typeof d[k]==='string') els[k].value=d[k]; });
+      updateHint(); progress(); sendH();
+    }catch(e){}
+  });
+
+  // ===== Auto-height to parent =====
+  function sendH(){ try{ const h=document.documentElement.scrollHeight||document.body.scrollHeight; window.parent.postMessage({type:'setHeight',height:h},'*'); }catch(e){} }
+  ['load','resize'].forEach(ev=>window.addEventListener(ev, sendH));
+  new MutationObserver(sendH).observe(document.body,{childList:true,subtree:true,attributes:true});
+})();</script>
+</body>
+</html>
