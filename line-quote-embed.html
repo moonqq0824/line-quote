@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>晶全豐｜LINE 複製報價（嵌入版）</title>
+<style>
+  :root{
+    --brand-green:#4A7C2D;
+    --brand-green-2:#7FB241;
+    --text:#333;
+    --muted:#777;
+    --border:#ccc;
+  }
+  /* 嵌入版：不使用外層卡片/陰影/背景，與宿主頁面自然融合 */
+  .embed-wrap{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 8px;
+    font-family: 'Microsoft JhengHei', 'Noto Sans TC', system-ui, -apple-system, Arial, sans-serif;
+    color: var(--text);
+  }
+  .embed-title{
+    text-align:center;
+    color: var(--brand-green);
+    font-size: 22px;
+    margin: 0 0 14px 0;
+  }
+  .embed-sub{
+    text-align:center;
+    color:#666;
+    font-size:14px;
+    margin: 0 0 18px 0;
+  }
+  .grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 16px;
+  }
+  .col{
+    flex:1 1 360px;
+    position:relative;
+  }
+  input,select,textarea{
+    width:100%;
+    padding:12px;
+    font-size:15px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    box-sizing:border-box;
+    background:#fff;
+  }
+  textarea{ min-height:100px; resize:vertical; }
+  /* 浮動標籤 */
+  .col label{
+    position:absolute;
+    left:10px;
+    top:10px;
+    padding:0 6px;
+    background:#fff;
+    color:var(--muted);
+    font-size:14px;
+    pointer-events:none;
+    transition:all .18s ease;
+  }
+  .col input:focus + label,
+  .col input:not(:placeholder-shown) + label,
+  .col select:focus + label,
+  .col select:not([value=""]) + label,
+  .col textarea:focus + label,
+  .col textarea:not(:placeholder-shown) + label{
+    top: -9px;
+    left: 8px;
+    font-size: 12px;
+    color: var(--brand-green);
+  }
+  .help{ font-size:12px; color:#888; margin:6px 0 0 2px; }
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 10px;
+    margin-top:16px;
+  }
+  .btn{
+    appearance:none; border:0; border-radius:10px;
+    padding:12px 16px; font-size:16px; font-weight:700;
+    cursor:pointer; transition:transform .05s ease;
+    flex:1 1 220px;
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn-copy{
+    background: linear-gradient(135deg, var(--brand-green), var(--brand-green-2));
+    color:#fff;
+  }
+  .btn-line{
+    background:#00c300; color:#fff; text-decoration:none; text-align:center;
+    line-height:22px; display:inline-block; border-radius:10px; font-weight:700;
+  }
+  .msg{
+    display:none; margin-top:10px; color:var(--brand-green); font-weight:700; text-align:center;
+  }
+  .req{ color:#d22; margin-left:4px; }
+  @media (max-width:560px){
+    .embed-title{ font-size:20px; }
+  }
+</style>
+</head>
+<body>
+<div class="embed-wrap" role="form" aria-label="晶全豐 LINE 複製報價（嵌入版）">
+  <h2 class="embed-title">晶全豐有限公司 線上詢價（LINE 複製）</h2>
+  <p class="embed-sub">先在下方填寫，按「複製報價內容」後開啟 LINE，貼上並傳送即可。</p>
+
+  <div class="grid">
+    <div class="col">
+      <input id="company" placeholder=" " autocomplete="organization" required>
+      <label for="company">公司名稱（例：OOOO有限公司）<span class="req">*</span></label>
+    </div>
+    <div class="col">
+      <input id="contact" placeholder=" " autocomplete="name" required>
+      <label for="contact">聯絡人<span class="req">*</span></label>
+    </div>
+
+    <div class="col">
+      <input id="email" type="email" placeholder=" " inputmode="email" autocomplete="email" required>
+      <label for="email">Email<span class="req">*</span></label>
+      <div class="help">請填常用信箱，便於寄送正式報價單</div>
+    </div>
+    <div class="col">
+      <input id="phone" type="tel" placeholder=" " inputmode="numeric" autocomplete="tel" required>
+      <label for="phone">聯絡電話（輸入時自動加 - ）<span class="req">*</span></label>
+      <div class="help" id="phoneHelp">格式：0912-345-678</div>
+    </div>
+
+    <div class="col">
+      <select id="process" required>
+        <option value="">請選擇</option>
+        <option>電解</option>
+        <option>電著（泳）</option>
+        <option>電漿</option>
+      </select>
+      <label for="process">需求工藝<span class="req">*</span></label>
+    </div>
+    <div class="col">
+      <input id="qty" type="number" placeholder=" " inputmode="numeric" min="1" step="1">
+      <label for="qty">預計製造數量</label>
+    </div>
+
+    <div class="col">
+      <input id="material" placeholder=" " autocomplete="off">
+      <label for="material">材質（例：SUS304 / 鋁合金）</label>
+    </div>
+    <div class="col">
+      <input id="surface" placeholder=" " autocomplete="off">
+      <label for="surface">工藝需求（例：光滑 / 去焊疤 / 消光黑）</label>
+    </div>
+
+    <div class="col" style="flex:1 1 100%;">
+      <textarea id="note" placeholder=" "></textarea>
+      <label for="note">備註</label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-copy" id="copyBtn" type="button">複製報價內容</button>
+    <a class="btn btn-line" id="openLine" href="https://lin.ee/uYm6MpA" target="_blank" rel="noopener">開啟 LINE 並貼上</a>
+  </div>
+  <div class="msg" id="copiedMsg">已複製，請在 LINE 對話視窗貼上並傳送。</div>
+</div>
+
+<script>
+(function(){
+  const $ = (id)=>document.getElementById(id);
+  const company = $('company');
+  const contact = $('contact');
+  const email = $('email');
+  const phone = $('phone');
+  const process = $('process');
+  const qty = $('qty');
+  const material = $('material');
+  const surface = $('surface');
+  const note = $('note');
+  const copyBtn = $('copyBtn');
+  const copiedMsg = $('copiedMsg');
+
+  // 手機號碼自動格式化：0912-345-678（4-3-3）
+  function formatTWMobile(raw){
+    const digits = raw.replace(/\D/g, '').slice(0,10); // 最多 10 碼
+    const a = digits.slice(0,4);
+    const b = digits.slice(4,7);
+    const c = digits.slice(7,10);
+    let out = a;
+    if(b) out += '-' + b;
+    if(c) out += '-' + c;
+    return out;
+  }
+  phone.addEventListener('input', ()=>{
+    const start = phone.selectionStart;
+    const beforeLen = phone.value.length;
+    phone.value = formatTWMobile(phone.value);
+    // 嘗試維持游標位置
+    const afterLen = phone.value.length;
+    const offset = afterLen - beforeLen;
+    phone.setSelectionRange(Math.max(0, start + offset), Math.max(0, start + offset));
+  });
+
+  function validate(){
+    if(!company.value.trim() || !contact.value.trim() || !email.value.trim() || !phone.value.trim() || !process.value){
+      alert('請填寫所有標示 * 的必填欄位。');
+      return false;
+    }
+    // email basic
+    const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if(!emailPattern.test(email.value.trim())){
+      alert('請輸入有效的 Email。');
+      return false;
+    }
+    // 手機驗證（10 碼數字）
+    const digits = phone.value.replace(/\D/g,'');
+    if(digits.length !== 10){
+      alert('請輸入 10 位數手機號碼（例如 0912-345-678）。');
+      return false;
+    }
+    return true;
+  }
+
+  function buildText(){
+    const lines = [
+      '晶全豐詢價需求',
+      '公司名稱：' + company.value.trim(),
+      '聯絡人：' + contact.value.trim(),
+      'Email：' + email.value.trim(),
+      '聯絡電話：' + phone.value.trim(),
+      '需求工藝：' + (process.value || ''),
+      '預計製造數量：' + (qty.value.trim() || ''),
+      '材質：' + (material.value.trim() || ''),
+      '工藝需求：' + (surface.value.trim() || ''),
+      '備註：' + (note.value.trim() || '')
+    ];
+    return lines.join('\n');
+  }
+
+  function copyText(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }catch(e){
+      document.body.removeChild(ta);
+      return Promise.reject(e);
+    }
+  }
+
+  copyBtn.addEventListener('click', function(){
+    if(!validate()) return;
+    copyBtn.disabled = true;
+    const text = buildText();
+    copyText(text).then(()=>{
+      copiedMsg.style.display='block';
+      copyBtn.textContent='已複製';
+      setTimeout(()=>{ copyBtn.textContent='複製報價內容'; copyBtn.disabled=false; }, 1200);
+      // 可選：自動開啟 LINE
+      // document.getElementById('openLine').click();
+    }).catch(()=>{
+      alert('複製失敗，請手動選取內容後複製。');
+      copyBtn.disabled=false;
+    });
+  });
+})();
+</script>
+</body>
+</html>
