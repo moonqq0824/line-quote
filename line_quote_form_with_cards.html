@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晶全豐有限公司 線上詢價表單</title>
+<style>
+  body {
+    font-family: 'Microsoft JhengHei', sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    max-width: 1000px;
+    margin: auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  }
+  .form-section {
+    flex: 1 1 60%;
+    padding: 20px;
+  }
+  .info-section {
+    flex: 1 1 40%;
+    background: #fafafa;
+    padding: 20px;
+    border-left: 1px solid #eee;
+  }
+  h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #222;
+    text-align: center;
+  }
+  .form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  .form-col {
+    flex: 1 1 45%;
+  }
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  button {
+    background: #0073b1;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+  }
+  .process-card {
+    display: none;
+  }
+  .process-card.active {
+    display: block;
+  }
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    .info-section {
+      border-left: none;
+      border-top: 1px solid #eee;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="form-section">
+    <h2>晶全豐有限公司 線上詢價表單</h2>
+    <div class="form-row">
+      <div class="form-col">
+        <label>公司名稱</label>
+        <input type="text" placeholder="OOOO有限公司" required>
+      </div>
+      <div class="form-col">
+        <label>聯絡人</label>
+        <input type="text" placeholder="林先生 / 陳小姐" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-col">
+        <label>Email</label>
+        <input type="email" placeholder="contact@example.com" required>
+      </div>
+      <div class="form-col">
+        <label>聯絡電話</label>
+        <input type="tel" placeholder="0912-345-678" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-col">
+        <label>需求工藝</label>
+        <select id="processSelect" required>
+          <option value="">請選擇工藝</option>
+          <option value="electro">電解</option>
+          <option value="anodizing">電著（泳）</option>
+          <option value="plasma">電漿</option>
+        </select>
+      </div>
+      <div class="form-col">
+        <label>預計製造數量</label>
+        <input type="number" placeholder="500">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-col">
+        <label>材質</label>
+        <input type="text" placeholder="SUS304 / 鋁合金">
+      </div>
+      <div class="form-col">
+        <label>工藝需求</label>
+        <input type="text" placeholder="光滑 / 去焊疤 / 消光黑">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-col" style="flex: 1 1 100%;">
+        <label>備註</label>
+        <textarea placeholder="可輸入特殊需求、交期、圖面說明等..."></textarea>
+      </div>
+    </div>
+    <p class="note">💡 提醒：一併傳圖檔（3D/STEP 格式）可加快報價速度</p>
+    <button type="button">複製並用 LINE 傳送</button>
+  </div>
+  <div class="info-section">
+    <div id="card-electro" class="process-card active">
+      <h3>電解注意事項</h3>
+      <p>僅適用於 3 系列不鏽鋼，表面效果均勻光亮。</p>
+    </div>
+    <div id="card-anodizing" class="process-card">
+      <h3>電著（泳）注意事項</h3>
+      <p>可做平黑、消光黑、特殊色，適合多種金屬材質。</p>
+    </div>
+    <div id="card-plasma" class="process-card">
+      <h3>電漿注意事項</h3>
+      <p>適用於高耐磨表面處理，顏色多變。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('processSelect').addEventListener('change', function() {
+    document.querySelectorAll('.process-card').forEach(card => card.classList.remove('active'));
+    if(this.value === 'electro') document.getElementById('card-electro').classList.add('active');
+    if(this.value === 'anodizing') document.getElementById('card-anodizing').classList.add('active');
+    if(this.value === 'plasma') document.getElementById('card-plasma').classList.add('active');
+  });
+</script>
+
+</body>
+</html>
