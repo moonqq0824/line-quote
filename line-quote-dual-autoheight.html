@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晶全豐 線上報價與Email詢價</title>
+<style>
+  body {
+    font-family: 'Microsoft JhengHei', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+  }
+  .container {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+  }
+  .left, .right {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  }
+  .left {
+    flex: 2;
+  }
+  .right {
+    flex: 1;
+  }
+  iframe {
+    width: 100%;
+    border: none;
+  }
+  h2 {
+    color: #222;
+    margin-top: 0;
+  }
+  .email-box {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+  }
+  .email-box a {
+    color: #0073b1;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .email-box a:hover {
+    text-decoration: underline;
+  }
+  .highlight {
+    background: #fffbe6;
+    padding: 10px;
+    border-left: 4px solid #ffc107;
+    margin: 15px 0;
+  }
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    .left, .right {
+      flex: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 左欄：LINE 報價表單 -->
+  <div class="left">
+    <iframe 
+      src="https://moonqq0824.github.io/line-quote/line-quote-embed-v4.3-autoheight.html" 
+      height="780"
+      id="quoteFormIframe"
+      allow="clipboard-read; clipboard-write">
+    </iframe>
+  </div>
+
+  <!-- 右欄：Email 詢價說明 -->
+  <div class="right">
+    <h2>📧 Email 詢價</h2>
+    <div class="email-box">
+      您也可以直接透過 Email 將需求傳送給我們：
+      <p><strong>收件信箱：</strong> <a href="mailto:crystal.metal@msa.hinet.net">crystal.metal@msa.hinet.net</a></p>
+      <div class="highlight">
+        ✨ 為了更快獲得報價，請在信件中附上：<br>
+        ▪ 材質與工藝需求<br>
+        ▪ 預計製造數量<br>
+        ▪ 產品圖面（PDF、JPG、STEP等）
+      </div>
+      <p>我們收到您的需求後，將在 1-2 個工作天內與您聯繫。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Auto-height for iframe
+window.addEventListener("message", function(e) {
+  if (e.data.type === "setHeight") {
+    document.getElementById("quoteFormIframe").style.height = e.data.height + "px";
+  }
+});
+</script>
+
+</body>
+</html>
