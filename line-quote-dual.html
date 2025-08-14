@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>線上報價與Email詢價</title>
+<style>
+  body {
+    font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+  }
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .left, .right {
+    flex: 1 1 50%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .right {
+    background: #fafafa;
+    border-left: 1px solid #eee;
+  }
+  h2 {
+    color: #333;
+    margin-top: 0;
+  }
+  p {
+    color: #555;
+    line-height: 1.6;
+  }
+  .email-box {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: 10px;
+  }
+  code {
+    background: #f1f1f1;
+    padding: 4px 6px;
+    border-radius: 4px;
+  }
+  @media (max-width: 768px) {
+    .left, .right {
+      flex: 1 1 100%;
+    }
+    .right {
+      border-left: none;
+      border-top: 1px solid #eee;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="left">
+    <h2>線上報價</h2>
+    <iframe
+      src="https://moonqq0824.github.io/line-quote/line-quote-embed-v4.3-autoheight.html"
+      width="100%" height="780" style="border:none;"
+      allow="clipboard-read; clipboard-write">
+    </iframe>
+  </div>
+  <div class="right">
+    <h2>Email 詢價</h2>
+    <p>您也可以直接使用 Email 聯繫我們，將需求與附件直接寄送至我們的公司信箱：</p>
+    <div class="email-box">
+      <strong>📧 Email：</strong> <code>crystal.metal@msa.hinet.net</code>
+    </div>
+    <p style="margin-top:20px;">為了加快報價流程，建議您在來信時提供以下資訊：</p>
+    <ul>
+      <li>公司名稱與聯絡人</li>
+      <li>聯絡電話與Email</li>
+      <li>需求工藝與製造數量</li>
+      <li>材質與表面處理需求</li>
+      <li>附件（圖檔、3D檔等）</li>
+    </ul>
+    <p>附上圖檔或設計圖面，可以讓我們更精準並更快速地提供報價。</p>
+  </div>
+</div>
+
+</body>
+</html>
